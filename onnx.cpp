@@ -16,7 +16,7 @@ int main() {
         Core ie;
 
         // Read ONNX model
-        CNNNetwork network = ie.ReadNetwork("path/to/your/model.onnx");
+        CNNNetwork network = ie.ReadNetwork("D:/ZOHO INTERN/pytorch/audio_to_magnitude.onnx");
 
         // Load model to the device
         ExecutableNetwork executableNetwork = ie.LoadNetwork(network, "CPU");
@@ -24,7 +24,7 @@ int main() {
         // Create inference request
         InferRequest inferRequest = executableNetwork.CreateInferRequest();
 
-        // Read audio file into an array (replace with your own method or library)
+        // Read audio file into an array 
         // For simplicity, assuming a 1D array of floats
         std::vector<float> audioData;
         // TODO: Read audio file and populate audioData
