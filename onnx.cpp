@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <sndfile.h>  // Include the libsndfile header
 
 using namespace std;
 using namespace InferenceEngine;
@@ -24,10 +25,25 @@ int main() {
         // Create inference request
         InferRequest inferRequest = executableNetwork.CreateInferRequest();
 
-        // Read audio file into an array 
-        // For simplicity, assuming a 1D array of floats
-        std::vector<float> audioData;
-        // TODO: Read audio file and populate audioData
+        // Read audio file into an array using libsndfile
+        const char* audioFile = "D:/ZOHO INTERN/pytorch/arun.wav";
+        SF_INFO sfInfo;
+        SNDFILE* sndfile = sf_open(audioFile, SFM_READ, &sfInfo);
+
+        if (!sndfile) {
+            cerr << "Error: Failed to open audio file" << endl;
+            return 1;
+        }
+
+        // Get the number of frames in the audio file
+        int numFrames = static_cast<int>(sfInfo.frames);
+
+        // Read audio data into a vector of floats
+        vector<float> audioData(numFrames);
+        sf_readf_float(sndfile, audioData.data(), numFrames);
+
+        // Close the audio file
+        sf_close(sndfile);
 
         // Set input blob
         Blob::Ptr inputBlob = inferRequest.GetBlob("input_audio");
