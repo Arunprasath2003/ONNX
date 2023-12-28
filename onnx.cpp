@@ -1,34 +1,62 @@
+//Used openvino toolkit
 #include <iostream>
 #include <vector>
-#include <sndfile.h>
+#include <inference_engine.hpp>
+#include <ie_blob.h>
+#include <fstream>
+#include <sstream>
+#include <chrono>
+
+using namespace std;
+using namespace InferenceEngine;
 
 int main() {
-    // Specify the path to the audio file
-    const char* audioFilePath = "D:/ZOHO INTERN/pytorch/arun.wav";
+    try {
+        // Create Inference Engine core
+        Core ie;
 
-    // Open the audio file using libsndfile
-    SF_INFO sfInfo;
-    SNDFILE* sndFile = sf_open(audioFilePath, SFM_READ, &sfInfo);
-    
-    if (!sndFile) {
-        std::cerr << "Error opening audio file." << std::endl;
+        // Read ONNX model
+        CNNNetwork network = ie.ReadNetwork("path/to/your/model.onnx");
+
+        // Load model to the device
+        ExecutableNetwork executableNetwork = ie.LoadNetwork(network, "CPU");
+
+        // Create inference request
+        InferRequest inferRequest = executableNetwork.CreateInferRequest();
+
+        // Read audio file into an array (replace with your own method or library)
+        // For simplicity, assuming a 1D array of floats
+        std::vector<float> audioData;
+        // TODO: Read audio file and populate audioData
+
+        // Set input blob
+        Blob::Ptr inputBlob = inferRequest.GetBlob("input_audio");
+        MemoryBlob::Ptr minput = as<MemoryBlob>(inputBlob);
+        auto minputHolder = minput->wmap();
+        float *inputData = minputHolder.as<float *>();
+        std::copy(audioData.begin(), audioData.end(), inputData);
+
+        // Perform inference
+        inferRequest.Infer();
+
+        // Get output blob
+        Blob::Ptr outputBlob = inferRequest.GetBlob("output_magnitude");
+        MemoryBlob::Ptr moutput = as<MemoryBlob>(outputBlob);
+        auto moutputHolder = moutput->wmap();
+        float *outputData = moutputHolder.as<float *>();
+
+        // Print output magnitude
+        for (size_t i = 0; i < outputBlob->size(); i++) {
+            std::cout << "Magnitude[" << i << "] = " << outputData[i] << std::endl;
+        }
+
+        // Set intra-processing threads to 10
+        ie.SetConfig({{InferenceEngine::PluginConfigParams::KEY_CPU_THREADS_NUM, "10"}}, "CPU");
+
+    } catch (const std::exception &error) {
+        std::cerr << "Error: " << error.what() << std::endl;
         return 1;
     }
-
-    // Read audio data into a vector
-    std::vector<float> audioData(sfInfo.frames * sfInfo.channels);
-    sf_readf_float(sndFile, audioData.data(), sfInfo.frames);
-
-    // Close the audio file
-    sf_close(sndFile);
-
-    // Print some information about the audio file
-    std::cout << "Audio file: " << audioFilePath << std::endl;
-    std::cout << "Sample rate: " << sfInfo.samplerate << " Hz" << std::endl;
-    std::cout << "Channels: " << sfInfo.channels << std::endl;
-    std::cout << "Frames: " << sfInfo.frames << std::endl;
-
-    // Now you can use the 'audioData' vector for further processing
 
     return 0;
 }
