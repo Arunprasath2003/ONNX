@@ -1,5 +1,20 @@
+**Signal Processing Techniques**
+<br>
+
+There are many techniques used in signal processing, including:
+<br>
+
+1.**Filtering:** This involves removing unwanted frequency components from a signal. There are many types of filters, including low-pass, high-pass, band-pass, and band-stop filters.
+2.**Fourier analysis:** This is a method for representing a signal as a sum of sinusoidal functions. It is used to identify the frequency components of a signal and to analyze its properties.
+3.**Noise reduction:** This involves removing or reducing unwanted noise or interference from a signal. Techniques for noise reduction include filtering, averaging, and the use of noise-canceling algorithms.
+4.**Compression:** This involves reducing the size of a digital signal by removing redundant or unnecessary information. Compression is often used to reduce the size of audio and video files for storage or transmission.
+5.**Modulation:** This involves encoding information onto a carrier signal for transmission over a communication channel. There are many types of modulation, including amplitude, frequency, and phase modulation.
+6.**Demodulation:** This is the process of extracting the original information from a modulated signal. It is the inverse of the modulation process.
+<br>
+
 **Importance of ONNX**
 <br>
+
 ONNX (Open Neural Network Exchange) is an open-source format designed to represent and interchange deep learning models between various frameworks. Its importance stems from several key advantages and use cases:
 
 1. **Interoperability:** ONNX serves as a common intermediate representation for deep learning models, allowing seamless interoperability between different deep learning frameworks. Models trained in one framework can be exported to ONNX format and then imported into another supported framework without the need for retraining.
