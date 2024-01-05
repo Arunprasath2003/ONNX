@@ -10,6 +10,12 @@ There are many techniques used in signal processing, including:
 
 3.**Noise reduction:** This involves removing or reducing unwanted noise or interference from a signal. Techniques for noise reduction include filtering, averaging, and the use of noise-canceling algorithms.
 
+<a href="https://github.com/Arunprasath2003/Fourier_Transform_for_Noise_Reduction">
+Fourier Transform for Noise Reduction Example
+</a>
+<br>
+<br>
+
 4.**Compression:** This involves reducing the size of a digital signal by removing redundant or unnecessary information. Compression is often used to reduce the size of audio and video files for storage or transmission.
 
 5.**Modulation:** This involves encoding information onto a carrier signal for transmission over a communication channel. There are many types of modulation, including amplitude, frequency, and phase modulation.
